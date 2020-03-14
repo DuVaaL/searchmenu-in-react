@@ -11,19 +11,42 @@ class App extends Component{
       input: '',
     }
   }
-
+  
   handleInput = (event) => {
     this.setState({
       input: event.target.value
-        })
-  }
-
+    })
+      }
+      
   render(){ 
-    let games = dataGames.map( (game, index) => {
-        return(
-          <Game key={index} name={game.name} year={game.year}  />
-        );
-    } )
+    let name = [];   
+    let year = [];
+
+        Object.keys(dataGames).forEach(key => {
+          name.push(dataGames[key].name);
+            year.push(dataGames[key].year);
+        })
+        // console.log(name);
+        // console.log(year);
+
+        let newName = name.filter((game) => {
+          return game.toLowerCase().indexOf(this.state.input) !== -1;
+        });
+
+        let findGame = newName.map( (game, index) => {
+          return <Game key={index} name={game} title={name[index]} year={year[index]} />
+        })
+        
+
+   
+
+    // let games = dataGames.map( (game, index) => {
+    //         return(
+    //       <Game key={index} name={game.name} year={game.year}  />
+    //       )
+    //    
+    // } )
+    
     return(
       <div className="container">
           <div className="input-container">
@@ -32,7 +55,7 @@ class App extends Component{
           </div>
 
           <div className="games-container">
-              {games}
+          {findGame}
           </div>
       </div>
     );
@@ -40,3 +63,5 @@ class App extends Component{
 }
 
 export default App;
+
+
